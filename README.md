@@ -64,12 +64,11 @@ streamlit run app/main.py
 
 ## 📈 Hasil
 Berikut ini adalah contoh hasil dari berita dan ringkasannya :
-Berita :
-The Middle East Donald Trump See all topics Follow
-Qatar’s prime minister excoriated Israeli Prime Minister Benjamin Netanyahu in an exclusive interview with CNN on Wednesday, calling Israel’s attempted assassination of Hamas leaders in Doha “barbaric.”
+- Berita :
+  - The Middle East Donald Trump See all topics Follow Qatar’s prime minister excoriated Israeli Prime Minister Benjamin Netanyahu in an exclusive interview with CNN on Wednesday, calling Israel’s attempted assassination of Hamas leaders in Doha “barbaric.”
 “We were thinking that we are dealing with civilized people,” Qatari Prime Minister Sheikh Mohammed bin Abdulrahman bin Jassim Al-Thani told CNN’s Becky Anderson. “That’s the way we are dealing with others. And the action that (Netanyahu) took ...
-Ringkasan :
-This is a full transcript of the attacks on Hamas in the Middle East. The prime minister says he is “betrayed” by Israel’s attack on the group, amid concerns over the deaths of five of its members. Here's what happened to those who were hostage in Gaza during the Israeli strike in Doha on Tuesday evening. Why? Following reports that Qatar has been accused of trying to assassinate their leaders.
+-Ringkasan :
+  - This is a full transcript of the attacks on Hamas in the Middle East. The prime minister says he is “betrayed” by Israel’s attack on the group, amid concerns over the deaths of five of its members. Here's what happened to those who were hostage in Gaza during the Israeli strike in Doha on Tuesday evening. Why? Following reports that Qatar has been accused of trying to assassinate their leaders.
 
 ## 🏗️ Kontribusi
 - Bisa memilih ringkasan singkat, sedang, atau panjang.
