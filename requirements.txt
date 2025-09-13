@@ -12,7 +12,13 @@ pydantic_core==2.33.2
 scikit-learn==1.7.2
 sentence-transformers==5.1.0
 streamlit==1.49.1
-torch==2.8.0
-transformers==4.56.0
+torch==2.2.2
+transformers==4.41.2
 umap-learn==0.5.4
 uvicorn==0.35.0
+beautifulsoup4
+lxml
+feedparser
+Pillow
+Cython
+scipy
