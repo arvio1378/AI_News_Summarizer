@@ -5,18 +5,16 @@ langdetect==1.0.9
 newspaper3k==0.2.8
 nltk==3.9.1
 numpy==1.26.4
-pandas==2.3.2
+pandas==2.2.2
 pydantic==2.11.7
 pydantic-settings==2.10.1
-scikit-learn==1.7.2
-sentence-transformers==5.1.0
-streamlit==1.49.1
+scikit-learn==1.5.2
+sentence-transformers==3.2.0
+streamlit==1.39.0
 torch==2.2.2
 transformers==4.41.2
-umap-learn==0.5.4
-uvicorn==0.35.0
-
-# dependencies tambahan
+umap-learn==0.5.5
+uvicorn==0.30.0
 beautifulsoup4
 lxml
 feedparser
