@@ -5,7 +5,7 @@ from scraper import get_article
 from summarizer import article_summarize
 from translator import translate_long_text
 from history import history
-from topic import topics_user, topic_model
+from topic import get_topics
 from keywords import get_keywords
 
 # Konfigurasi halaman Streamlit
@@ -101,19 +101,30 @@ elif pages == "History":
 
     # Topic
     st.subheader("Topic")
-    topic = topics_user(topic_model)
-
-    for t in topic:
-        st.write(f"**🔑 Kata kunci:** {', '.join(t['keywords'])}")
-        st.write("**📝 Contoh kalimat:**")
-        for ex in t["examples"]:
-            st.write(f"- {ex[:200]}...")
+    if not df.empty and "content" in df.columns and not df["content"].isnull().all():
+        try:
+            topic_results = get_topics(df)
+            for t in topic_results:
+                st.write(f"**🔑 Kata kunci:** {', '.join(t['keywords'])}")
+                st.write("**📝 Contoh kalimat:**")
+                for ex in t["examples"]:
+                    st.write(f"- {ex[:200]}...")
+        except Exception as e:
+            st.warning(f"Failed to generate topics: {e}")
+    else:
+        st.info("No content available to generate topics.")
 
     # Keywords
     st.subheader("Most Keywords")
-    keywords = get_keywords()
-    for word, freq in keywords:
-        st.write(f"- {word}: {freq}")
+    if not df.empty and "content" in df.columns and not df["content"].isnull().all():
+        try:
+            keywords = get_keywords(df)
+            for word, freq in keywords:
+                st.write(f"- {word}: {freq}")
+        except Exception as e:
+            st.warning(f"Failed to generate keywords: {e}")
+    else:
+        st.info("No content available to generate keywords.")
 
     # tabel histori
     st.subheader("History Table")
