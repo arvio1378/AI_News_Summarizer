@@ -35,7 +35,7 @@ AI News Summarizer adalah aplikasi yang memanfaatkan Natural Language Processing
   - notebooks
       - test.ipynb -> Eksperimen program
   - style
-      style.css -> Desain tampilan 
+      - style.css -> Desain tampilan 
   - requirements.txt -> Dependencies program
   - README.md -> Desripsi pada program
 
