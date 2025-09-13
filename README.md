@@ -17,6 +17,7 @@ AI News Summarizer adalah aplikasi yang memanfaatkan Natural Language Processing
 - NLTK
 - Bertopic
 - Langdetect
+- Scikit-learn
 
 ## 📁 Struktur Folder
 - AI News Summarizer/
