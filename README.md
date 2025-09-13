@@ -25,20 +25,21 @@ AI News Summarizer adalah aplikasi yang memanfaatkan Natural Language Processing
   - app
       - history.py -> Memasukkan data ke histori
       - keywords.py -> Mencari keywords dari berita
-      - main.py -> File utama untuk menjalankan program
+      - main.py -> File utama program
+      - api.py -> API program
       - scraper.py -> Mengambil isi berita dari url
       - summarizer.py -> Meringkas berita
       - topic.py -> Mendapatkan topik dari berita
       - translator.py -> Menterjemahkan berita
   -models -> Tempat model
-      - embedding -> Model embedding untuk topik
+      - embedding -> Model embedding
       - summarizer -> Model Summarizer
       - translator -> Model Translator
   - notebooks
       - test.ipynb -> Eksperimen program
   - style
       style.css -> Desain tampilan 
-  - requirements.txt -> Library program
+  - requirements.txt -> Dependencies program
   - README.md -> Desripsi pada program
 
 ## 🛠️ Arsitektur
