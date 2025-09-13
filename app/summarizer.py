@@ -1,41 +1,79 @@
+# summarizer.py
 import re
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-model_name = "csebuetnlp/mT5_multilingual_XLSum"
+MODEL_NAME = "csebuetnlp/mT5_multilingual_XLSum"
 
-@st.cache_resource(show_spinner="Loading summarization...")
+@st.cache_resource(show_spinner="Loading summarization model...")
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
     return tokenizer, model
 
+def clean_text(text: str) -> str:
+    """Bersihkan HTML, tag font, dan whitespace berlebihan"""
+    text = re.sub(r'<.*?>', '', text)  # hapus tag HTML
+    text = re.sub(r'\s+', ' ', text)  # hilangkan whitespace berlebihan
+    return text.strip()
 
-def article_summarize(content) -> str:
-    tokenizer, model = load_model()
+def chunk_text(text, max_tokens=512):
+    """Split text menjadi chunk kecil agar model bisa handle artikel panjang"""
+    tokenizer, _ = load_model()
+    words = text.split()
+    chunks = []
+    current_chunk = []
 
-    WHITESPACE_HANDLER = lambda k: re.sub('\s+', ' ', re.sub('\n+', ' ', k.strip()))
+    for word in words:
+        current_chunk.append(word)
+        if len(tokenizer(" ".join(current_chunk))["input_ids"]) >= max_tokens:
+            chunks.append(" ".join(current_chunk[:-1]))
+            current_chunk = [word]
 
-    input_ids = tokenizer(
-        [WHITESPACE_HANDLER(content)],
-        return_tensors="pt",
-        padding="max_length",
-        truncation=True,
-        max_length=512
-    )["input_ids"]
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+    return chunks
 
-    output_ids = model.generate(
-        input_ids=input_ids,
-        min_length=100,
-        max_length=200,
-        no_repeat_ngram_size=2,
-        num_beams=4
-    )[0]
+def article_summarize(content: str) -> str:
+    try:
+        tokenizer, model = load_model()
 
-    summary = tokenizer.decode(
-        output_ids,
-        skip_special_tokens=True,
-        clean_up_tokenization_spaces=False
-    )
-    
-    return summary
+        # Bersihkan HTML & whitespace
+        content = clean_text(content)
+
+        # Split artikel panjang menjadi chunk
+        chunks = chunk_text(content, max_tokens=512)
+        summaries = []
+
+        for i, chunk in enumerate(chunks):
+            with st.spinner(f"Summarizing chunk {i+1}/{len(chunks)}..."):
+                input_ids = tokenizer(
+                    chunk,
+                    return_tensors="pt",
+                    padding="max_length",
+                    truncation=True,
+                    max_length=512
+                )["input_ids"]
+
+                output_ids = model.generate(
+                    input_ids=input_ids,
+                    min_length=50,
+                    max_length=250,
+                    no_repeat_ngram_size=2,
+                    num_beams=4
+                )[0]
+
+                summary = tokenizer.decode(
+                    output_ids,
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=True
+                )
+                summaries.append(summary)
+
+        # Gabungkan ringkasan chunk
+        final_summary = " ".join(summaries)
+        return final_summary
+
+    except Exception as e:
+        st.error(f"Error during summarization: {e}")
+        return ""
