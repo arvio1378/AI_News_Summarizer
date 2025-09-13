@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 model_name = "csebuetnlp/mT5_multilingual_XLSum"
 
-@st.cache_resource(show_spinner="Loading summarization...")
+@st.experimental_singleton(show_spinner="Loading summarization...")
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
