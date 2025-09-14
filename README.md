@@ -10,7 +10,7 @@ AI News Summarizer adalah aplikasi yang memanfaatkan Natural Language Processing
 
 ## 🧠 Tools & Library
 - Python
-- Streamlit
+- Gradio
 - Pandas
 - Newspaper
 - Transformers
