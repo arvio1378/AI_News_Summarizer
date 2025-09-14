@@ -6,7 +6,7 @@ AI News Summarizer adalah aplikasi yang memanfaatkan Natural Language Processing
 ## 🚀 Fitur
 - Ringkasan otomatis dari artikel berita.
 - Mendukung dua bahasa (Indonesia & Inggris).
-- Antarmuka sederhana menggunakan Streamlit
+- Antarmuka sederhana menggunakan Gradio
 
 ## 🧠 Tools & Library
 - Python
@@ -57,7 +57,7 @@ pip install -r requirements.txt
 ```
 3. Jalankan Program
 ```bash
-streamlit run app/main.py
+python app/main.py
 ```
 
 ## 📈 Hasil
@@ -71,7 +71,6 @@ Berikut ini adalah contoh hasil dari berita dan ringkasannya :
 ## 🏗️ Kontribusi
 - Bisa memilih ringkasan singkat, sedang, atau panjang.
 - Ringkasan dari teks + video berita + podcast/audio.
-- Membuat desain streamlit menjadi lebih bagus
 
 ## 🧑‍💻 Tentang Saya
 Saya sedang belajar dan membangun karir di bidang AI/ML. Projek ini adalah latihan saya untuk membangun aplikasi python sederhana. Saya ingin lebih untuk mengembangkan skill saya di bidang ini melalui projek-projek yang ada.
