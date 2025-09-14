@@ -1,32 +1,20 @@
-# Core libraries
 numpy>=2.2
 pandas>=2.3
 scikit-learn>=1.7
-
-# NLP & text processing
 nltk>=3.9
 newspaper3k>=0.2.8
 langdetect>=1.0.9
 lxml[html_clean]>=4.9.3
-
-# Deep learning & embeddings
 torch>=2.8
 torchvision>=0.23
 transformers>=4.56
 sentence-transformers>=5.1
 sentencepiece>=0.2.1
 umap-learn>=0.5.9.post2
-
-# Topic modeling
 bertopic>=0.17
-
-# API & data validation
 fastapi>=0.116
 pydantic>=2.11
 pydantic_core>=2.33
-
-# Web app
-streamlit>=1.29
-
-# Hugging Face hub
+gradio>=3.55.0
 huggingface-hub>=0.34
+sacremoses>=0.1.1

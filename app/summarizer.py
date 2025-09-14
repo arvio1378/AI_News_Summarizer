@@ -1,12 +1,12 @@
-# summarizer.py
 import re
-import streamlit as st
+from functools import lru_cache
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 MODEL_NAME = "csebuetnlp/mT5_multilingual_XLSum"
 
-@st.cache_resource(show_spinner="Loading summarization model...")
+@lru_cache(maxsize=1)
 def load_model():
+    """Load model & tokenizer (cached supaya tidak reload berulang)"""
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
     return tokenizer, model
@@ -14,7 +14,7 @@ def load_model():
 def clean_text(text: str) -> str:
     """Bersihkan HTML, tag font, dan whitespace berlebihan"""
     text = re.sub(r'<.*?>', '', text)  # hapus tag HTML
-    text = re.sub(r'\s+', ' ', text)  # hilangkan whitespace berlebihan
+    text = re.sub(r'\s+', ' ', text)   # hilangkan whitespace berlebihan
     return text.strip()
 
 def chunk_text(text, max_tokens=512):
@@ -46,34 +46,35 @@ def article_summarize(content: str) -> str:
         summaries = []
 
         for i, chunk in enumerate(chunks):
-            with st.spinner(f"Summarizing chunk {i+1}/{len(chunks)}..."):
-                input_ids = tokenizer(
-                    chunk,
-                    return_tensors="pt",
-                    padding="max_length",
-                    truncation=True,
-                    max_length=512
-                )["input_ids"]
+            print(f"Summarizing chunk {i+1}/{len(chunks)}...")  # logging untuk Gradio/terminal
 
-                output_ids = model.generate(
-                    input_ids=input_ids,
-                    min_length=50,
-                    max_length=250,
-                    no_repeat_ngram_size=2,
-                    num_beams=4
-                )[0]
+            input_ids = tokenizer(
+                chunk,
+                return_tensors="pt",
+                padding="max_length",
+                truncation=True,
+                max_length=512
+            )["input_ids"]
 
-                summary = tokenizer.decode(
-                    output_ids,
-                    skip_special_tokens=True,
-                    clean_up_tokenization_spaces=True
-                )
-                summaries.append(summary)
+            output_ids = model.generate(
+                input_ids=input_ids,
+                min_length=50,
+                max_length=250,
+                no_repeat_ngram_size=2,
+                num_beams=4
+            )[0]
+
+            summary = tokenizer.decode(
+                output_ids,
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            )
+            summaries.append(summary)
 
         # Gabungkan ringkasan chunk
         final_summary = " ".join(summaries)
         return final_summary
 
     except Exception as e:
-        st.error(f"Error during summarization: {e}")
+        print(f"Error during summarization: {e}")
         return ""

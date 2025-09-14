@@ -1,4 +1,4 @@
-import streamlit as st
+from functools import lru_cache
 from sentence_transformers import SentenceTransformer
 from bertopic import BERTopic
 from umap import UMAP
@@ -6,12 +6,21 @@ from hdbscan import HDBSCAN
 from keywords import clean_text
 
 # Cache model supaya tidak dibuat ulang setiap panggilan
-@st.cache_resource(show_spinner="Analyzing topics...")
+@lru_cache(maxsize=1)
 def load_topic_model():
     return BERTopic(
         embedding_model=SentenceTransformer("all-mpnet-base-v2"),
-        umap_model=UMAP(n_neighbors=15, n_components=10, min_dist=0.0, metric="cosine"),
-        hdbscan_model=HDBSCAN(min_cluster_size=2, metric="euclidean", cluster_selection_method="eom"),
+        umap_model=UMAP(
+            n_neighbors=15,
+            n_components=10,
+            min_dist=0.0,
+            metric="cosine"
+        ),
+        hdbscan_model=HDBSCAN(
+            min_cluster_size=2,
+            metric="euclidean",
+            cluster_selection_method="eom"
+        ),
         nr_topics="auto",
         min_topic_size=2
     )
